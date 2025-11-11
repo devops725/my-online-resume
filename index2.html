@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdullah Hussain - Aspiring React Native Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Light gradient background */
+            background: linear-gradient(-45deg, #f0f4ff, #ffffff, #f0f4ff, #e8efff);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+            color: #1a1a1a; /* Dark text for light background */
+        }
+
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .content-card {
+            /* Light, slightly transparent card */
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            /* Neon green border accent */
+            border: 1px solid rgba(57, 255, 20, 0.5); 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .active-tab-button {
+            border-bottom-color: #39FF14; /* Neon green */
+            color: #39FF14; /* Neon green */
+            font-weight: 600;
+        }
+        .tab-button {
+            border-bottom-color: transparent;
+        }
+        .nav-active {
+            color: #39FF14; /* Neon green */
+            font-weight: 600;
+            border-bottom: 2px solid #39FF14; /* Neon green */
+        }
+
+        /* General Styling adjustments for light mode */
+        header {
+            background-color: rgba(255, 255, 255, 0.95); /* Light header */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+        #mobile-menu {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #mobile-menu a {
+            color: #1a1a1a;
+        }
+        #mobile-menu a:hover {
+            color: #39FF14;
+        }
+        #mobile-menu-button span {
+            background-color: #1a1a1a; /* Dark burger icon */
+        }
+
+        /* Text Colors - Dark on Light Background */
+        .text-gray-900 {
+            color: #1a1a1a; /* Dark headings */
+        }
+        .text-gray-600, .text-gray-700, .text-gray-800 {
+            color: #333333; /* Dark general text */
+        }
+        .text-gray-500 {
+            color: #555555;
+        }
+        .nav-item {
+            color: #555555;
+        }
+        .nav-item:hover {
+            color: #39FF14;
+        }
+
+        /* Neon Accent Colors (remains #39FF14) */
+        .text-indigo-600, .hover\:text-indigo-600:hover, .text-indigo-700, .border-indigo-500, .bg-indigo-600, .bg-indigo-100 {
+            color: #39FF14; 
+            border-color: #39FF14; 
+        }
+        .bg-indigo-600 {
+            background-color: #39FF14; /* Neon green background for active buttons */
+            color: #1a1a1a; /* Dark text on neon */
+        }
+        .bg-indigo-100 {
+            background-color: rgba(57, 255, 20, 0.2); /* Lighter neon background */
+            color: #1a1a1a; /* Dark text on light neon background */
+        }
+        .border-t-4.border-indigo-400, .border-t-4.border-indigo-500 {
+            border-top-color: #39FF14; /* Neon green top border */
+        }
+        .view-link {
+            color: #39FF14;
+        }
+        .view-link:hover {
+            color: #5dff3d; /* Lighter neon on hover */
+        }
+
+        /* Inactive Buttons & Cards (Light look) */
+        .bg-gray-200 {
+            background-color: #f0f0f0; 
+            color: #333333;
+        }
+        .hover\:bg-gray-300:hover {
+            background-color: #dddddd;
+        }
+        .border-gray-300 {
+            border-color: #ddd; 
+        }
+        .border-gray-100 {
+            border-color: #eee;
+        }
+        .skill-card {
+            background-color: #ffffff; 
+            border-color: #eee;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .bg-indigo-50 {
+            background-color: rgba(57, 255, 20, 0.1); 
+            color: #1a1a1a; /* Dark text on light neon background */
+        }
+
+        /* Chart.js overrides for Light Background */
+        #skillRadarChart {
+            background-color: #ffffff; 
+            border-radius: 0.75rem; 
+            padding: 1rem;
+        }
+        .chart-container {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(57, 255, 20, 0.5); 
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm shadow-md">
+        <nav class="container mx-auto max-w-6xl px-4 md:px-6">
+            <div class="flex h-16 items-center justify-between">
+                <a href="#" class="view-link text-lg font-bold text-indigo-600" data-view="home-view">Abdullah Hussain</a>
+                <div class="hidden space-x-6 md:flex">
+                    <a href="#" class="view-link nav-item font-medium text-gray-600 hover:text-indigo-600 transition-colors py-2" data-view="home-view">Home</a>
+                    <a href="#" class="view-link nav-item font-medium text-gray-600 hover:text-indigo-600 transition-colors py-2" data-view="skills-page-view">Skills</a>
+                    <a href="#" class="view-link nav-item font-medium text-gray-600 hover:text-indigo-600 transition-colors py-2" data-view="experience-page-view">Experience</a>
+                    <a href="#" class="view-link nav-item font-medium text-gray-600 hover:text-indigo-600 transition-colors py-2" data-view="projects-page-view">Projects</a>
+                    <a href="#" class="view-link nav-item font-medium text-gray-600 hover:text-indigo-600 transition-colors py-2" data-view="profile-page-view">Profile</a>
+                    <a href="#" class="view-link nav-item font-medium text-gray-600 hover:text-indigo-600 transition-colors py-2" data-view="education-page-view">Education</a>
+                    <a href="#" class="view-link nav-item font-medium text-gray-600 hover:text-indigo-600 transition-colors py-2" data-view="contact-page-view">Contact</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                        <span class="w-6 h-0.5 bg-gray-700 block rounded-full"></span>
+                        <span class="w-6 h-0.5 bg-gray-700 block mt-1.5 rounded-full"></span>
+                        <span class="w-6 h-0.5 bg-gray-700 block mt-1.5 rounded-full"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-white shadow-md">
+            <a href="#" class="view-link block text-gray-600 hover:text-indigo-600" data-view="home-view">Home</a>
+            <a href="#" class="view-link block text-gray-600 hover:text-indigo-600" data-view="skills-page-view">Skills</a>
+            <a href="#" class="view-link block text-gray-600 hover:text-indigo-600" data-view="experience-page-view">Experience</a>
+            <a href="#" class="view-link block text-gray-600 hover:text-indigo-600" data-view="projects-page-view">Projects</a>
+            <a href="#" class="view-link block text-gray-600 hover:text-indigo-600" data-view="profile-page-view">Profile</a>
+            <a href="#" class="view-link block text-gray-600 hover:text-indigo-600" data-view="education-page-view">Education</a>
+            <a href="#" class="view-link block text-gray-600 hover:text-indigo-600" data-view="contact-page-view">Contact</a>
+        </div>
+    </header>
+
+    <!-- ---------------------------------------------------- -->
+    <!-- VIEW CONTAINER: Holds all dedicated pages -->
+    <!-- ---------------------------------------------------- -->
+    <div id="view-container">
+
+        <!-- ---------------------------------------------------- -->
+        <!-- 1. HOME VIEW (Default/Main Resume Content) -->
+        <!-- ---------------------------------------------------- -->
+        <section id="home-view" class="view py-12">
+            <div class="container mx-auto max-w-6xl px-4 md:px-6">
+                <main>
+                    <div class="py-16 md:py-24 text-center content-card p-8 rounded-xl shadow-2xl">
+                        <div class="mx-auto mb-8 w-40 h-40 rounded-full overflow-hidden border-4 border-indigo-500 shadow-xl">
+                            <!-- Image embedded using Base64 for guaranteed loading -->
+                             <img src="p1.png" alt="Abdullah Hussain" class="w-full h-full object-cover">
+                        </div>
+                        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 tracking-tight">Abdullah Hussain</h1>
+                        <p class="mt-4 text-xl md:text-2xl font-medium text-indigo-700">Aspiring React Native Mobile Developer</p>
+                        <p class="mt-6 max-w-3xl mx-auto text-lg text-gray-700">
+                            A highly motivated Computer Science student pivoting from a successful background in e-commerce and customer operations. I am leveraging my proven skills in data analysis, problem-solving, and project management to build a new career in mobile development. I am passionate about creating intuitive, high-quality user experiences and am actively seeking an opportunity to apply my technical training in a React Native developer role.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8 text-center mt-16">
+                        <div class="p-6 content-card rounded-xl shadow-lg border-t-4 border-indigo-400">
+                            <h3 class="text-xl font-bold text-indigo-600">Technical Foundation</h3>
+                            <p class="mt-2 text-gray-600">Building mobile apps with React Native and leveraging C++ for core logic knowledge.</p>
+                        </div>
+                        <div class="p-6 content-card rounded-xl shadow-lg border-t-4 border-indigo-400">
+                            <h3 class="text-xl font-bold text-indigo-600">Analytical Skills</h3>
+                            <p class="mt-2 text-gray-600">Experienced in SEO and e-commerce data analysis and performance optimization.</p>
+                        </div>
+                        <div class="p-6 content-card rounded-xl shadow-lg border-t-4 border-indigo-400">
+                            <h3 class="text-xl font-bold text-indigo-600">User Focus</h3>
+                            <p class="mt-2 text-gray-600">Proven dedication to customer satisfaction and designing intuitive interfaces.</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </section>
+
+        <!-- ---------------------------------------------------- -->
+        <!-- 2. SKILLS PAGE VIEW -->
+        <!-- ---------------------------------------------------- -->
+        <section id="skills-page-view" class="view py-12 bg-transparent min-h-screen hidden">
+            <div class="container mx-auto max-w-6xl px-4 md:px-6 content-card p-6 rounded-xl shadow-2xl">
+                <button class="view-link flex items-center text-indigo-600 hover:text-indigo-800 transition-colors mb-8" data-view="home-view">
+                    <span class="text-xl mr-2">&larr;</span> Back to Home
+                </button>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-2">My Skillset</h2>
+                <p class="text-xl text-gray-600 mb-10">Use the filters to explore my technical and transferable competencies.</p>
+
+                <div id="skill-filters" class="flex flex-wrap justify-center md:justify-start gap-3 my-8">
+                    <button class="skill-filter-btn px-4 py-2 text-sm font-medium rounded-full bg-indigo-600 text-white" data-filter="all">All Skills</button>
+                    <button class="skill-filter-btn px-4 py-2 text-sm font-medium rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-filter="technical">Technical</button>
+                    <button class="skill-filter-btn px-4 py-2 text-sm font-medium rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-filter="ecommerce">E-Commerce</button>
+                    <button class="skill-filter-btn px-4 py-2 text-sm font-medium rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-filter="soft">Transferable</button>
+                </div>
+                <div id="skill-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+                    
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="technical">
+                        <h3 class="font-semibold text-gray-900">React Native</h3>
+                        <p class="text-sm text-gray-500">Cross-Platform Mobile</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="technical">
+                        <h3 class="font-semibold text-gray-900">JavaScript</h3>
+                        <p class="text-sm text-gray-500">ES6+ Proficiency</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="technical">
+                        <h3 class="font-semibold text-gray-900">C++</h3>
+                        <p class="text-sm text-gray-500">OOP Foundation</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="technical">
+                        <h3 class="font-semibold text-gray-900">HTML & CSS</h3>
+                        <p class="text-sm text-gray-500">Web Fundamentals</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="technical">
+                        <h3 class="font-semibold text-gray-900">Git/GitHub</h3>
+                        <p class="text-sm text-gray-500">Version Control</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="technical">
+                        <h3 class="font-semibold text-gray-900">Firebase</h3>
+                        <p class="text-sm text-gray-500">DB/Auth Concepts</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="ecommerce">
+                        <h3 class="font-semibold text-gray-900">Amazon SEO</h3>
+                        <p class="text-sm text-gray-500">Listing Optimization</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="ecommerce">
+                        <h3 class="font-semibold text-gray-900">Helium 10</h3>
+                        <p class="text-sm text-gray-500">Market Analysis Tool</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="soft">
+                        <h3 class="font-semibold text-gray-900">Problem Solving</h3>
+                        <p class="text-sm text-gray-500">Analytical Skills</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="soft">
+                        <h3 class="font-semibold text-gray-900">Time Management</h3>
+                        <p class="text-sm text-gray-500">Self-Directed</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="soft">
+                        <h3 class="font-semibold text-gray-900">Data Accuracy</h3>
+                        <p class="text-sm text-gray-500">Detail-Oriented</p>
+                    </div>
+                    <div class="skill-card bg-white p-4 rounded-xl shadow-md border border-gray-100 transition-all" data-category="soft">
+                        <h3 class="font-semibold text-gray-900">UI/UX Sense</h3>
+                        <p class="text-sm text-gray-500">Design Interest</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------------------------------------------------- -->
+        <!-- 3. EXPERIENCE PAGE VIEW -->
+        <!-- ---------------------------------------------------- -->
+        <section id="experience-page-view" class="view py-12 bg-transparent min-h-screen hidden">
+            <div class="container mx-auto max-w-4xl px-4 md:px-6 content-card p-6 rounded-xl shadow-2xl">
+                <button class="view-link flex items-center text-indigo-600 hover:text-indigo-800 transition-colors mb-8" data-view="home-view">
+                    <span class="text-xl mr-2">&larr;</span> Back to Home
+                </button>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-2">Core Experience (Transferable Skills)</h2>
+                <p class="text-xl text-gray-600 mb-10">My past roles have built a strong foundation in analysis, project ownership, and user focus—all critical for development.</p>
+
+                <div class="w-full mx-auto mt-8 bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <div class="flex border-b border-gray-300">
+                        <button class="experience-tab-btn py-3 px-6 text-gray-600 border-b-2 text-sm md:text-base font-medium transition-colors active-tab-button" data-tab="seo">
+                            Amazon SEO Specialist
+                        </button>
+                        <button class="experience-tab-btn py-3 px-6 text-gray-600 border-b-2 text-sm md:text-base font-medium transition-colors tab-button" data-tab="seller">
+                            E-commerce Seller
+                        </button>
+                        <button class="experience-tab-btn py-3 px-6 text-gray-600 border-b-2 text-sm md:text-base font-medium transition-colors tab-button" data-tab="data">
+                            Data Entry
+                        </button>
+                    </div>
+                    <div class="py-6">
+                        <div id="seo" class="experience-tab-content space-y-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Amazon SEO Specialist (Freelancer)</h3>
+                            <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                                <li>Performed in-depth keyword and product research using Helium 10 and Jungle Scout, demonstrating strong analytical problem-solving skills.</li>
+                                <li>Optimized e-commerce listings, applying strategic changes to increase visibility and conversion rates.</li>
+                                <li>Assisted sellers in market analysis and competitor research, showcasing ability to research and propose data-backed solutions.</li>
+                            </ul>
+                            <p class="text-indigo-700 font-semibold bg-indigo-50 p-3 rounded-lg mt-4">
+                                Transferable Skill: Deep analytical thinking and data-driven problem-solving, crucial for debugging, performance optimization, and algorithm design.
+                            </p>
+                        </div>
+                        <div id="seller" class="experience-tab-content space-y-3 hidden">
+                            <h3 class="text-xl font-semibold text-gray-800">E-commerce Seller – Daraz.pk (Independent)</h3>
+                            <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                                <li>Managed product listings, pricing, and inventory, ensuring high data accuracy and operational efficiency.</li>
+                                <li>Independently handled all customer inquiries, complaints, and order fulfillment, maintaining a strong focus on customer satisfaction.</li>
+                                <li>Time Management & Problem Solving: Successfully managed complex logistics and inventory issues under tight deadlines, demonstrating project ownership.</li>
+                            </ul>
+                            <p class="text-indigo-700 font-semibold bg-indigo-50 p-3 rounded-lg mt-4">
+                                Transferable Skill: End-to-end project ownership and a strong focus on the end-user (customer) experience, similar to managing a full-stack application.
+                            </p>
+                        </div>
+                        <div id="data" class="experience-tab-content space-y-3 hidden">
+                            <h3 class="text-xl font-semibold text-gray-800">Data Entry & Record Management</h3>
+                            <ul class="list-disc pl-5 text-gray-700 space-y-1">
+                                <li>Collected, organized, and maintained business data with precision and accuracy.</li>
+                                <li>Ensured efficient data handling and storage for streamlined business operations.</li>
+                            </ul>
+                            <p class="text-indigo-700 font-semibold bg-indigo-50 p-3 rounded-lg mt-4">
+                                Transferable Skill: Meticulous attention to detail and experience with data integrity, critical for managing application state, databases, and writing clean, error-free code.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------------------------------------------------- -->
+        <!-- 4. PROJECTS PAGE VIEW -->
+        <!-- ---------------------------------------------------- -->
+        <section id="projects-page-view" class="view py-12 bg-transparent min-h-screen hidden">
+            <div class="container mx-auto max-w-4xl px-4 md:px-6 content-card p-6 rounded-xl shadow-2xl">
+                <button class="view-link flex items-center text-indigo-600 hover:text-indigo-800 transition-colors mb-8" data-view="home-view">
+                    <span class="text-xl mr-2">&larr;</span> Back to Home
+                </button>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-2">React Native Project Portfolio</h2>
+                <p class="text-xl text-gray-600 mb-12">Detailed technical breakdown of key mobile development applications.</p>
+
+                <div class="space-y-12">
+                    <!-- Project 1: Eatify -->
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-indigo-500">
+                        <h3 class="text-2xl font-bold text-indigo-700">1. Eatify - Recipe & Meal Planner App</h3>
+                        <p class="text-lg text-gray-500 mt-1 mb-4">Cross-platform mobile application focused on data persistence and user-centric features.</p>
+                        <div class="flex flex-wrap gap-2 text-sm font-medium mb-4">
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">React Native</span>
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Firebase Firestore</span>
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Context API</span>
+                        </div>
+                        <ul class="text-base text-gray-700 space-y-3 list-disc pl-5">
+                            <li>Data Management: Implemented full CRUD (Create, Read, Update, Delete) operations using Firebase Firestore to manage personalized data like saved recipes and customized meal plans.</li>
+                            <li>State & Performance: Utilized the Context API for global state management, ensuring performant UI updates without excessive prop drilling.</li>
+                            <li>UI/UX Focus: Designed the mobile interface with intuitive navigation and optimized large data rendering using React Native's FlatList component for smooth, efficient scrolling.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Project 2: Cryptofolio -->
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-indigo-500">
+                        <h3 class="text-2xl font-bold text-indigo-700">2. Cryptofolio - Cryptocurrency Tracker</h3>
+                        <p class="text-lg text-gray-500 mt-1 mb-4">Real-time market tracking application demonstrating API integration and data visualization.</p>
+                        <div class="flex flex-wrap gap-2 text-sm font-medium mb-4">
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">React Native</span>
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">RESTful APIs</span>
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Axios</span>
+                        </div>
+                        <ul class="text-base text-gray-700 space-y-3 list-disc pl-5">
+                            <li>API Integration: Successfully integrated a public REST API via the Axios library to fetch and display real-time market data (price, volume, rank).</li>
+                            <li>Data Visualization: Implemented a method for visualizing historical price trends (e.g., using a dedicated charting library concept), showcasing proficiency in presenting complex data.</li>
+                            <li>Performance & Reliability: Engineered efficient asynchronous data fetching and loading state management to ensure a reliable and non-blocking user experience.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Project 3: MediLink -->
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border-t-4 border-indigo-500">
+                        <h3 class="text-2xl font-bold text-indigo-700">3. MediLink - Simple Appointment Reminder</h3>
+                        <p class="text-lg text-gray-500 mt-1 mb-4">Utility application focused on mobile-specific features and local data storage.</p>
+                        <div class="flex flex-wrap gap-2 text-sm font-medium mb-4">
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">React Native</span>
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">AsyncStorage</span>
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">Local Notifications</span>
+                        </div>
+                        <ul class="text-base text-gray-700 space-y-3 list-disc pl-5">
+                            <li>Local Storage: Managed all appointment data locally and persistently using React Native's AsyncStorage, demonstrating understanding of non-relational data persistence.</li>
+                            <li>Native Features: Integrated the Notifications API to provide timely, scheduled local reminders for appointments.</li>
+                            <li>Usability:Focused on implementing essential mobile-specific UI components (Date/Time pickers) to ensure a high-quality, native-feeling user experience.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------------------------------------------------- -->
+        <!-- 5. PROFILE PAGE VIEW (with Radar Chart) -->
+        <!-- ---------------------------------------------------- -->
+        <section id="profile-page-view" class="view py-12 bg-transparent min-h-screen hidden">
+            <div class="container mx-auto max-w-4xl px-4 md:px-6 content-card p-6 rounded-xl shadow-2xl">
+                <button class="view-link flex items-center text-indigo-600 hover:text-indigo-800 transition-colors mb-8" data-view="home-view">
+                    <span class="text-xl mr-2">&larr;</span> Back to Home
+                </button>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-2">Developer Profile: Core Competencies</h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-600 mb-10">
+                    This visualization summarizes my core competencies, blending analytical skills from my past experience with technical foundations.
+                </p>
+                <div class="bg-white p-6 md:p-10 rounded-xl shadow-lg border border-gray-100">
+                    <div class="chart-container relative w-full max-w-xl mx-auto h-96 max-h-[450px] mt-4">
+                        <canvas id="skillRadarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------------------------------------------------- -->
+        <!-- 6. EDUCATION PAGE VIEW -->
+        <!-- ---------------------------------------------------- -->
+        <section id="education-page-view" class="view py-12 bg-transparent min-h-screen hidden">
+            <div class="container mx-auto max-w-4xl px-4 md:px-6 content-card p-6 rounded-xl shadow-2xl">
+                <button class="view-link flex items-center text-indigo-600 hover:text-indigo-800 transition-colors mb-8" data-view="home-view">
+                    <span class="text-xl mr-2">&larr;</span> Back to Home
+                </button>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-2">Education and Foundation</h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-600 mb-10">
+                    My formal Computer Science education provides the theoretical backbone for my practical development skills.
+                </p>
+                <div class="mt-8 max-w-lg mx-auto bg-white rounded-lg shadow-xl overflow-hidden border-t-4 border-indigo-500">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-semibold text-gray-900">Bachelor of Computer Science</h3>
+                        <p class="mt-1 text-indigo-600 text-lg font-medium">Lahore Garrison University – Lahore, Pakistan</p>
+                        <p class="mt-2 text-gray-500 font-medium">Expected Graduation: 2025</p>
+                        <ul class="mt-4 text-gray-700 list-disc pl-5 space-y-2">
+                            <li>Building a strong foundation in Data Structures and Algorithms.</li>
+                            <li>Core proficiency in Object-Oriented Programming (C++) principles.</li>
+                            <li>Relevant Coursework includes: Programming Fundamentals, Data Structures, and Core Mathematics.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------------------------------------------------- -->
+        <!-- 7. CONTACT PAGE VIEW -->
+        <!-- ---------------------------------------------------- -->
+        <section id="contact-page-view" class="view py-12 bg-transparent min-h-screen hidden">
+            <div class="container mx-auto max-w-4xl px-4 md:px-6 content-card p-6 rounded-xl shadow-2xl">
+                <button class="view-link flex items-center text-indigo-600 hover:text-indigo-800 transition-colors mb-8" data-view="home-view">
+                    <span class="text-xl mr-2">&larr;</span> Back to Home
+                </button>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-2">Get In Touch</h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-600 mb-10">
+                    I am actively seeking opportunities and would be happy to connect about React Native roles.
+                </p>
+                <div class="mt-8 text-center bg-white p-8 rounded-xl shadow-lg border-t-4 border-indigo-500">
+                    <ul class="space-y-4 text-lg">
+                        <li class="flex items-center justify-center">
+                            <span class="font-semibold w-24 text-right mr-4">Email:</span>
+                            <a href="mailto:abdullah.bscs725@gmail.com" class="text-indigo-600 hover:underline">abdullah.bscs725@gmail.com</a>
+                        </li>
+                        <li class="flex items-center justify-center">
+                            <span class="font-semibold w-24 text-right mr-4">Phone:</span>
+                            <span class="text-gray-700">(+92) 314-7041202</span>
+                        </li>
+                        <li class="flex items-center justify-center">
+                        <span class="font-semibold w-24 text-right mr-4">Location:</span>
+                            <span class="text-gray-700">Lahore, Pakistan</span>
+                        </li>
+                        <li class="flex items-center justify-center">
+                            <span class="font-semibold w-24 text-right mr-4"></span>
+                            <span class="text-gray-500"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <!-- ---------------------------------------------------- -->
+
+    <footer class="py-4 text-center bg-transparent">
+        <p class="text-gray-700 text-sm">Interactive professional portfolio designed as a multi-page single-page application.</p>
+    </footer>
+
+    <script>
+        let radarChartInstance = null; // Variable to store chart instance
+
+        const initRadarChart = () => {
+            if (radarChartInstance) {
+                radarChartInstance.destroy(); // Destroy previous instance to re-render with new styles if needed
+            }
+
+            const ctx = document.getElementById('skillRadarChart').getContext('2d');
+            if (!ctx) return;
+
+            Chart.defaults.font.family = 'Inter, sans-serif';
+            Chart.defaults.font.size = 14;
+            Chart.defaults.color = '#333333'; // Dark color for chart text
+
+            const chartData = {
+                labels: [
+                    'Problem Solving',
+                    'Data Analysis',
+                    'C++ (OOP)',
+                    'HTML & CSS',
+                    'React Native (Learning)',
+                    'Time Management'
+                ],
+                datasets: [{
+                    label: 'Developer Profile',
+                    data: [9, 8, 7, 7, 6, 9],
+                    fill: true,
+                    backgroundColor: 'rgba(57, 255, 20, 0.1)', /* Neon green with transparency */
+                    borderColor: 'rgba(57, 255, 20, 1)', /* Solid neon green */
+                    pointBackgroundColor: 'rgba(57, 255, 20, 1)',
+                    pointBorderColor: '#ffffff', 
+                    pointHoverBackgroundColor: '#ffffff',
+                    pointHoverBorderColor: 'rgba(57, 255, 20, 1)'
+                }]
+            };
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#ffffff', /* Light tooltip background */
+                        titleColor: '#39FF14', /* Neon green title */
+                        bodyColor: '#333333', /* Dark body text */
+                        borderColor: 'rgba(57, 255, 20, 0.5)', /* Semi-transparent neon border */
+                        borderWidth: 1,
+                        cornerRadius: 4,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: '#dddddd' /* Lighter angle lines */
+                        },
+                        grid: {
+                            color: '#eeeeee' /* Lighter grid lines */
+                        },
+                        pointLabels: {
+                            font: {
+                                size: 13,
+                                weight: '500'
+                            },
+                            color: '#333333' /* Dark point labels */
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: '#555555', /* Dark ticks */
+                            stepSize: 2,
+                            max: 10,
+                            min: 0
+                        }
+                    }
+                }
+            };
+            
+            radarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: chartData,
+                options: chartOptions
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const viewLinks = document.querySelectorAll('.view-link');
+            const navItems = document.querySelectorAll('.nav-item');
+            const views = document.querySelectorAll('.view');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const defaultViewId = 'home-view';
+
+            // --- View Switching Logic ---
+            const setActiveNavLink = (targetViewId) => {
+                navItems.forEach(link => {
+                    link.classList.remove('nav-active');
+                    if (link.dataset.view === targetViewId) {
+                        link.classList.add('nav-active');
+                    }
+                });
+            };
+
+            const showView = (targetViewId) => {
+                views.forEach(view => {
+                    if (view.id === targetViewId) {
+                        view.classList.remove('hidden');
+                    } else {
+                        view.classList.add('hidden');
+                    }
+                });
+                setActiveNavLink(targetViewId);
+                
+                // Special handling for the Profile view (Radar Chart initialization)
+                if (targetViewId === 'profile-page-view') {
+                    initRadarChart();
+                }
+
+                // Scroll to top of the new view
+                window.scrollTo(0, 0); 
+            };
+
+            const loadInitialViewAndSetNav = () => {
+                 showView(defaultViewId);
+            };
+
+            // Load initial view on DOM ready
+            loadInitialViewAndSetNav();
+
+            viewLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetViewId = link.dataset.view;
+                    if (targetViewId) {
+                        showView(targetViewId);
+                    }
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden'); // Close mobile menu after click
+                    }
+                });
+            });
+
+            // --- Mobile Menu Toggle ---
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // --- Skills Filtering Logic (for skills-page-view) ---
+            const filterButtons = document.querySelectorAll('.skill-filter-btn');
+            const skillCards = document.querySelectorAll('.skill-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+                    
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('bg-indigo-600', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                    });
+                    
+                    button.classList.add('bg-indigo-600', 'text-white');
+                    button.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+
+                    skillCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // --- Experience Tab Logic (for experience-page-view) ---
+            const tabButtons = document.querySelectorAll('.experience-tab-btn');
+            const tabContents = document.querySelectorAll('.experience-tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active-tab-button');
+                        btn.classList.add('tab-button');
+                    });
+                    button.classList.add('active-tab-button');
+                    button.classList.remove('tab-button');
+
+                    tabContents.forEach(content => {
+                        if (content.id === tabId) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
